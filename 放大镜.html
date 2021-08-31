@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>放大镜</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #one{
+            width: 500px;
+            height: 375px;
+            float: left;
+            position: relative;
+        }
+        #two{
+            width: 500px;
+            height: 375px;
+            float: left;
+            display: none;
+            overflow: hidden;
+            position: relative;
+        }
+        #two>img{
+            
+            position: relative;
+            transform: scale(2);
+        }
+        .fdj{
+            width: 250px;
+            height: 187.5px;
+            background-color: rgba(0 , 0, 0, 0.4);
+            position: absolute;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="one">
+        <img src="1.jpg" alt="">
+        <div class="fdj"></div>
+    </div>
+
+    <div id="two">
+        <img src="1.jpg" alt="">
+    </div>
+
+    <script>
+        //放大两倍的放大镜
+        var one=document.getElementById("one");
+        var two=document.getElementById("two");
+        var fdj=document.getElementsByClassName("fdj")[0];
+        var img=document.getElementsByTagName("img")[1];
+        one.onmouseover=function(){
+            two.style.display="block";
+            fdj.style.display="block";
+
+            one.onmousemove=function(event){
+                // 兼容
+                var event=event  || window.event;
+                var mx=event.clientX-fdj.offsetWidth/2;
+                var my=event.clientY-fdj.offsetHeight/2;;
+
+                if(mx<=0){mx=0};
+                if(my<=0){my=0};
+                //设置右边
+                if(mx>=one.offsetWidth-fdj.offsetWidth){mx=one.offsetWidth-fdj.offsetWidth};
+                if(my>=one.offsetHeight-fdj.offsetHeight){my=one.offsetHeight-fdj.offsetHeight};
+
+                fdj.style.left=mx+"px";
+                fdj.style.top=my+"px";
+                
+                img.style.bottom=my+"px";
+                img.style.right=mx+"px";
+            }
+        }
+        one.onmouseout=function(){
+            two.style.display="none";
+            fdj.style.display="none";
+        }
+
+        //问题:出现红边的原因是以为放大镜没有设置成相同倍数。
+    </script>
+</body>
+</html>
